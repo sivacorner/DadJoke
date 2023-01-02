@@ -1,0 +1,26 @@
+﻿@model DadJokes.Models.JokesViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <h1 class="display-4">Welcome to Dad Jokes</h1>
+    <hr />
+    <div>
+        <div>
+            <div class="row mb-3">
+                <h4 class="mb-3">Let's get a random joke</h4>
+            </div>
+            <div class="row mb-3">
+                <label for="lblQuestion">@Model.Question</label><br />
+            </div>
+
+            <div class="row mb-3">
+                <label for="lblQuestion">@Model.Answer</label>
+            </div>
+
+        </div>
+        <button type="button" class="btn btn-primary"  onclick="location.href='@Url.Action("Index")'">New Joke</button>
+    </div>
+</div>
