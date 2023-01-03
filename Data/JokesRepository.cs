@@ -23,9 +23,10 @@ namespace DadJokes.Data
             ApiDto apiResult = await _jokesClient.GetJokesResponseAsync();
             JokesViewModel? result = null;
 
-            if(apiResult.success == true)
-            {                
-                result = _map.Map<JokesViewModel>(apiResult.body[0]);
+            if (apiResult.success == true)
+            {
+                if (apiResult.body != null)
+                    result = _map.Map<JokesViewModel>(apiResult.body[0]);            
             }
 
             return result;

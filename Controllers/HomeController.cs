@@ -1,6 +1,7 @@
 ﻿using DadJokes.Clients;
 using DadJokes.Data;
 using DadJokes.Models;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -32,7 +33,20 @@ namespace DadJokes.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var execeptionHandlerPathFeture = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+
+            return View(
+                new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    ErrorMessage = execeptionHandlerPathFeture?.Error.Message,
+                    Source = execeptionHandlerPathFeture?.Error.Source,
+                    ErrorPath = execeptionHandlerPathFeture?.Path,
+                    StackTrace = execeptionHandlerPathFeture?.Error.StackTrace,
+                    InnerException = Convert.ToString(execeptionHandlerPathFeture?.Error.InnerException)
+                }
+                );
+
         }
     }
 }

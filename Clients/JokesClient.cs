@@ -21,17 +21,17 @@ namespace DadJokes.Clients
         }
 
         public async Task<ApiDto> GetJokesResponseAsync()
-        {
-            string responseContent = string.Empty;
+        {            
+            string? responseContent = string.Empty;
             
             var request = new HttpRequestMessage
             {
                Method = HttpMethod.Get,
-               RequestUri = new Uri(this._apiSettings.Value.RequestUri),
+               RequestUri = new Uri(this._apiSettings.Value?.RequestUri ?? String.Empty),
                Headers =
                {
-                    { "X-RapidAPI-Key", this._apiSettings.Value.Key },
-                    { "X-RapidAPI-Host", this._apiSettings.Value.Host },
+                    { "X-RapidAPI-Key", this._apiSettings.Value?.Key ?? String.Empty},
+                    { "X-RapidAPI-Host", this._apiSettings.Value?.Host ?? String.Empty},
                },
              };
 
@@ -41,8 +41,9 @@ namespace DadJokes.Clients
                 responseContent = code.IsSuccessStatusCode ? await response.Content.ReadAsStringAsync() : String.Empty;
             }
 
+           
             ApiDto result = JsonConvert.DeserializeObject<ApiDto>(responseContent);
-                
+             
            return result;
         }        
     }
